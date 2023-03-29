@@ -67,7 +67,51 @@ void quicksort(int* array, int leftmost, int rightmost)
 
 void merge(int* array, int leftmost, int halfway, int rightmost)
 {
+	int n = halfway - leftmost + 1;
+	int m = rightmost - halfway;
+	int leftside[n], rightside[m];
 
+	for(int i = 0; i < n; i++)
+		leftside[i] = array[leftmost + i];
+	
+	for(int i = 0; i < m; i++)
+		rightside[i] = array[halfway + i + 1];
+
+	int i = 0;
+	int j = 0;
+	int k = leftmost;
+
+	while(i < n && j < m)
+	{
+		if(leftside[i] <= rightside[j])
+		{
+			array[k] = leftside[i];
+			i++;
+		}
+
+		else
+		{
+			array[k] = rightside[j];
+			j++;
+		}
+
+		k++;
+	}
+
+	while(i < n)
+	{
+		array[k] = leftside[i];
+		i++;
+		k++;
+	}
+	
+
+	while(j < m)
+	{
+		array[k] = rightside[j];
+		j++;
+		k++;
+	}	
 }
 
 void mergesort(int* array, int leftmost, int rightmost)
@@ -81,7 +125,33 @@ void mergesort(int* array, int leftmost, int rightmost)
 	}
 }
 
-void heapsort(int* array, int leftmost, int rightmost)
+void heapify(int* array, int size, int i)
 {
+	int largest = i;
+	int left = 2 * 1 + 1;
+	int right = 2 * 1 + 2;
 
+	if (left < size && array[left] > array[largest])
+		largest = left;
+
+	if (right < size && array[right] > array[largest])
+		largest = right;
+
+	if (largest != i)
+	{
+		swap(&array[i], &array[largest]);
+		heapify(array, size, largest);
+	}
+}
+
+void heapsort(int* array, int size)
+{
+	for(int i = size / 2 - 1; i >= 0; i--)
+		heapify(array, size, i);
+
+	for(int i = size - 1; i >= 0; i--)
+	{
+		swap(&array[0], &array[i]);
+		heapify(array, i, 0);
+	}
 }
