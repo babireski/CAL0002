@@ -17,10 +17,10 @@ double sorttime(int* array, int size, void (*sort)(int*, int))
 	return (double) clocks / CLOCKS_PER_SEC;
 }
 
-double searchtime(int* array, int size, int key, void (*search)(int*, int, int))
+double searchtime(int* array, int size, int key, int (*search)(int*, int, int))
 {
 	clock_t clocks = clock();
-	sort(array, size, key);
+	search(array, size, key);
 	clocks = clock() - clocks;
 
 	return (double) clocks / CLOCKS_PER_SEC;

@@ -1,5 +1,6 @@
 #ifndef _SORTS_H_
 	#define _SORTS_H_
+	#include "commons.h"
 	void bubblesort(int* array, int size);
 	void insertionsort(int* array, int size);
 	void quicksort(int* array, int size);

@@ -2,16 +2,17 @@
 #include "headerfiles/searches.h"
 #include "headerfiles/sorts.h"
 
+#define SORTS 5
 #define FUNCTIONS 7
-#define ITERATIONS 10
-#define SIZE 1000
+#define REPETITIONS 100
+#define SIZE 10000
 #define THRESHOLD 10000
 
-
+static void (*sorts[SORTS])() = {bubblesort, insertionsort, quicksort, mergesort, heapsort};
 
 int main()
 {
-	FILE* file = fopen("data/data.csv", "w");
+	FILE* file = fopen("../data/data.csv", "w");
 
 	if(file == NULL)
 		return 1;
@@ -19,66 +20,38 @@ int main()
 	fputs("Size,Bubblesort,Insertionsort,Quicksort,Mergesort,Heapsort,Linearsearch,Binarysearch\n", file);
 
 	int array[SIZE];
-	float means[FUNCTIONS];
+	double means[FUNCTIONS];
 
-	for(int i = 10; i < SIZE + 1; i += 10)
+	for(int size = 10; size <= SIZE; size += 1000)
 	{
-		fprintf(file, "%i,", i);
+		fprintf(file, "%i", size);
 
-		for(int j = 0; j < FUNCTIONS; j++)
-			means[j] = 0;
+		for(int i = 0; i < FUNCTIONS; i++)
+			means[i] = 0;
 
-		for(int j = 0; j < ITERATIONS; j++)
+		for(int repetition = 0; repetition < REPETITIONS; repetition++)
 		{
-			for(int k = 0; k < FUNCTIONS; k++)
+			for(int function = 0; function < SORTS; function++)
 			{
-				generate(array, i, THRESHOLD);
-				clock_t clocks;
-
-				/* Bubblesort */
-				clocks = clock();
-				bubblesort(array, i);
-				clocks = clocks - clock();
-				means[0] += clocks;
-
-
-				/* Insertionsort */
-				clocks = clock();
-				insertionsort(array, i);
-				clocks = clocks - clock();
-				means[1] += clocks;
-
-				/* Quicksort */
-				clocks = clock();
-				quicksort(array, 0, i - 1);
-				clocks = clocks - clock();
-				means[2] += clocks;
-
-				/* Mergesort */
-				clocks = clock();
-				mergesort(array, 0, i - 1);
-				clocks = clocks - clock();
-				means[3] += clocks;
-
-				/* Heapsort */
-				clocks = clock();
-				heapsort(array, i);
-				clocks = clocks - clock();
-				means[4] += clocks;
-
-				/* Linearsearch */
-				clocks = clock();
-				linearsearch(array, i, );
-				clocks = clocks - clock();
-				means[5] += clocks;
-
-				/* Binarysearch */
-				clocks = clock();
-				binarysearch(array, i, );
-				clocks = clocks - clock();
-				means[6] += clocks;
+				generate(array, size, THRESHOLD);
+				means[function] = sorttime(array, size, sorts[function]);
 			}
+
+			generate(array, size, THRESHOLD);
+			means[SORTS + 1] = searchtime(array, size, array[rand() % size + 1], linearsearch);
+
+			generate(array, size, THRESHOLD);
+			quicksort(array, size);
+			means[SORTS + 2] = searchtime(array, size, array[rand() % size + 1], binarysearch);
 		}
+
+		for(int i = 0; i < FUNCTIONS; i++)
+		{
+			means[i] /= REPETITIONS;
+			fprintf(file, ",%lf", means[i]);
+		}
+		
+		fprintf(file, "\n");
 	}
 
 	fclose(file);

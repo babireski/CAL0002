@@ -72,7 +72,7 @@ int partition(int* array, int leftmost, int rightmost)
 		}
 	}
 
-	swap(array[i + 1], array[rightmost]);
+	swap(&array[i + 1], &array[rightmost]);
 	return i + 1;
 }
 
@@ -90,7 +90,7 @@ void truemergesort(int* array, int leftmost, int rightmost)
 		int halfway = (leftmost + rightmost) / 2;
 		truemergesort(array, leftmost, halfway);
 		truemergesort(array, halfway + 1, rightmost);
-		truemerge(array, leftmost, halfway, rightmost);
+		merge(array, leftmost, halfway, rightmost);
 	}
 }
 
@@ -160,8 +160,8 @@ void heapsort(int* array, int size)
 void heapify(int* array, int size, int i)
 {
 	int largest = i;
-	int left = 2 * 1 + 1;
-	int right = 2 * 1 + 2;
+	int left = 2 * i + 1;
+	int right = 2 * i + 2;
 
 	if (left < size && array[left] > array[largest])
 		largest = left;
