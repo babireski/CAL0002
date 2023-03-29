@@ -1,5 +1,7 @@
 #include "../headerfiles/sorts.h"
 
+/* Bubblesort */
+
 void bubblesort(int* array, int size)
 {
 	int swapped = 1;
@@ -19,6 +21,8 @@ void bubblesort(int* array, int size)
 	}
 }
 
+/* Insertionsort */
+
 void insertionsort(int* array, int size)
 {
 	int i = 1;
@@ -34,6 +38,23 @@ void insertionsort(int* array, int size)
 		}
 
 		i++;
+	}
+}
+
+/* Quicksort */
+
+void quicksort(int* array, int size)
+{
+	truequicksort(array, 0, size - 1);
+}
+
+void truequicksort(int* array, int leftmost, int rightmost)
+{
+	if(leftmost < rightmost)
+	{
+		int halfway = partition(array, leftmost, rightmost);
+		truequicksort(array, leftmost, halfway - 1);
+		truequicksort(array, halfway + 1, rightmost);
 	}
 }
 
@@ -55,13 +76,21 @@ int partition(int* array, int leftmost, int rightmost)
 	return i + 1;
 }
 
-void quicksort(int* array, int leftmost, int rightmost)
+/* Mergesort */
+
+void mergesort(int* array, int size)
+{
+	truequicksort(array, 0, size - 1);
+}
+
+void truemergesort(int* array, int leftmost, int rightmost)
 {
 	if(leftmost < rightmost)
 	{
-		int halfway = partition(array, leftmost, rightmost);
-		quicksort(array, leftmost, halfway - 1);
-		quicksort(array, halfway + 1, rightmost);
+		int halfway = (leftmost + rightmost) / 2;
+		truemergesort(array, leftmost, halfway);
+		truemergesort(array, halfway + 1, rightmost);
+		truemerge(array, leftmost, halfway, rightmost);
 	}
 }
 
@@ -114,14 +143,17 @@ void merge(int* array, int leftmost, int halfway, int rightmost)
 	}	
 }
 
-void mergesort(int* array, int leftmost, int rightmost)
+/* Heapsort */
+
+void heapsort(int* array, int size)
 {
-	if(leftmost < rightmost)
+	for(int i = size / 2 - 1; i >= 0; i--)
+		heapify(array, size, i);
+
+	for(int i = size - 1; i >= 0; i--)
 	{
-		int halfway = (leftmost + rightmost) / 2;
-		mergesort(array, leftmost, halfway);
-		mergesort(array, halfway + 1, rightmost);
-		merge(array, leftmost, halfway, rightmost);
+		swap(&array[0], &array[i]);
+		heapify(array, i, 0);
 	}
 }
 
@@ -141,17 +173,5 @@ void heapify(int* array, int size, int i)
 	{
 		swap(&array[i], &array[largest]);
 		heapify(array, size, largest);
-	}
-}
-
-void heapsort(int* array, int size)
-{
-	for(int i = size / 2 - 1; i >= 0; i--)
-		heapify(array, size, i);
-
-	for(int i = size - 1; i >= 0; i--)
-	{
-		swap(&array[0], &array[i]);
-		heapify(array, i, 0);
 	}
 }

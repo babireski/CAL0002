@@ -1,5 +1,7 @@
 #include "../headerfiles/searches.h"
 
+/* Linear search*/
+
 int linearsearch(int* array, int size, int key)
 {
 	for(int i = 0; i < size; i++)
@@ -8,6 +10,8 @@ int linearsearch(int* array, int size, int key)
 
 	return -1;
 }
+
+/* Binary search */
 
 int binarysearch(int* array, int size, int key)
 {

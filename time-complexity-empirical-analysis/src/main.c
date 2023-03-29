@@ -7,6 +7,8 @@
 #define SIZE 1000
 #define THRESHOLD 10000
 
+
+
 int main()
 {
 	FILE* file = fopen("data/data.csv", "w");
@@ -28,21 +30,54 @@ int main()
 
 		for(int j = 0; j < ITERATIONS; j++)
 		{
-			arraygenerator(array, i, THRESHOLD);
-			clock_t clocks;
+			for(int k = 0; k < FUNCTIONS; k++)
+			{
+				generate(array, i, THRESHOLD);
+				clock_t clocks;
 
-			/* Bubblesort */
-			clocks = clock();
-			bubblesort(array, i);
-			clocks = clocks - clock();
+				/* Bubblesort */
+				clocks = clock();
+				bubblesort(array, i);
+				clocks = clocks - clock();
+				means[0] += clocks;
 
 
-			/* Insertionsort */
-			/* Quicksort */
-			/* Mergesort */
-			/* Heapsort */
-			/* Linearsearch */
-			/* Binarysearch */
+				/* Insertionsort */
+				clocks = clock();
+				insertionsort(array, i);
+				clocks = clocks - clock();
+				means[1] += clocks;
+
+				/* Quicksort */
+				clocks = clock();
+				quicksort(array, 0, i - 1);
+				clocks = clocks - clock();
+				means[2] += clocks;
+
+				/* Mergesort */
+				clocks = clock();
+				mergesort(array, 0, i - 1);
+				clocks = clocks - clock();
+				means[3] += clocks;
+
+				/* Heapsort */
+				clocks = clock();
+				heapsort(array, i);
+				clocks = clocks - clock();
+				means[4] += clocks;
+
+				/* Linearsearch */
+				clocks = clock();
+				linearsearch(array, i, );
+				clocks = clocks - clock();
+				means[5] += clocks;
+
+				/* Binarysearch */
+				clocks = clock();
+				binarysearch(array, i, );
+				clocks = clocks - clock();
+				means[6] += clocks;
+			}
 		}
 	}
 
