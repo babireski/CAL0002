@@ -4,9 +4,9 @@
 
 #define SORTS 5
 #define FUNCTIONS 7
-#define REPETITIONS 100
-#define SIZE 10000
-#define THRESHOLD 10000
+#define REPETITIONS 10
+#define SIZE 5000
+#define THRESHOLD 5000
 
 static void (*sorts[SORTS])() = {bubblesort, insertionsort, quicksort, mergesort, heapsort};
 
@@ -17,14 +17,15 @@ int main()
 	if(file == NULL)
 		return 1;
 
-	fputs("Size,Bubblesort,Insertionsort,Quicksort,Mergesort,Heapsort,Linearsearch,Binarysearch\n", file);
+	fputs("Size;Bubblesort;Insertionsort;Quicksort;Mergesort;Heapsort;Linearsearch;Binarysearch\n", file);
 
 	int array[SIZE];
-	double means[FUNCTIONS];
+	unsigned long int means[FUNCTIONS];
 
-	for(int size = 10; size <= SIZE; size += 1000)
+	for(int size = 1; size <= SIZE; size++)
 	{
 		fprintf(file, "%i", size);
+		printf("%i", size);
 
 		for(int i = 0; i < FUNCTIONS; i++)
 			means[i] = 0;
@@ -48,10 +49,12 @@ int main()
 		for(int i = 0; i < FUNCTIONS; i++)
 		{
 			means[i] /= REPETITIONS;
-			fprintf(file, ",%lf", means[i]);
+			fprintf(file, ";%lu", means[i]);
+			printf(",%lu", means[i]);
 		}
 		
 		fprintf(file, "\n");
+		printf("\n");
 	}
 
 	fclose(file);
