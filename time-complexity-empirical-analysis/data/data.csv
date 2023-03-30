@@ -1,4 +1,4 @@
-Size;Bubblesort;Insertionsort;Quicksort;Mergesort;Heapsort;Linearsearch;Binarysearch
+Size,Bubblesort,Insertionsort,Quicksort,Mergesort,Heapsort,Linearsearch,Binarysearch
 1;0;0;0;0;0;0;0
 2;0;0;0;0;0;0;0
 3;0;0;0;0;0;0;0
